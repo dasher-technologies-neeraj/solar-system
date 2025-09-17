@@ -1,0 +1,66 @@
+[
+  {
+    "name": "Mercury",
+    "id": 1,
+    "description": "Mercury is the smallest planet in our solar system and nearest to the Sun.",
+    "image": "images/mercury.png",
+    "velocity": "47.4 km/s",
+    "distance": "57.9 million km"
+  },
+  {
+    "name": "Venus",
+    "id": 2,
+    "description": "Venus is the second planet from the Sun and is Earth’s closest planetary neighbor.",
+    "image": "images/venus.png",
+    "velocity": "35.0 km/s",
+    "distance": "108.2 million km"
+  },
+  {
+    "name": "Earth",
+    "id": 3,
+    "description": "Our home planet is the third planet from the Sun, and the only place we know of so far that’s inhabited by living things.",
+    "image": "images/earth.png",
+    "velocity": "29.8 km/s",
+    "distance": "149.6 million km"
+  },
+  {
+    "name": "Mars",
+    "id": 4,
+    "description": "Mars is the fourth planet from the Sun – a dusty, cold, desert world with a very thin atmosphere.",
+    "image": "images/mars.png",
+    "velocity": "24.1 km/s",
+    "distance": "227.9 million km"
+  },
+  {
+    "name": "Jupiter",
+    "id": 5,
+    "description": "Jupiter is the fifth planet from our Sun and is, by far, the largest planet in the solar system.",
+    "image": "images/jupiter.png",
+    "velocity": "13.1 km/s",
+    "distance": "778.3 million km"
+  },
+  {
+    "name": "Saturn",
+    "id": 6,
+    "description": "Saturn is the sixth planet from the Sun and the second-largest planet in our solar system.",
+    "image": "images/saturn.png",
+    "velocity": "9.7 km/s",
+    "distance": "1.4 billion km"
+  },
+  {
+    "name": "Uranus",
+    "id": 7,
+    "description": "Uranus is the seventh planet from the Sun, and has the third-largest diameter in our solar system.",
+    "image": "images/uranus.png",
+    "velocity": "6.8 km/s",
+    "distance": "2.9 billion km"
+  },
+  {
+    "name": "Neptune",
+    "id": 8,
+    "description": "Neptune is the eighth and most distant major planet orbiting our Sun.",
+    "image": "images/neptune.png",
+    "velocity": "5.4 km/s",
+    "distance": "4.5 billion km"
+  }
+]
