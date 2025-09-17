@@ -35,6 +35,7 @@ pipeline {
             yaml nodeAgentYaml()
             defaultContainer 'node-container'
             idleMinutes 5
+            showRawYaml false
           }
         }
 
