@@ -1,4 +1,4 @@
-@Library('dasher-trusted-agent-shared-library') _
+@Library('ritika-dasher-trusted-agent-shared-library') _
 
 pipeline {
 
