@@ -163,9 +163,9 @@ pipeline {
                         set -ex
                         /kaniko/executor \
                            --context "dir://${WORKSPACE}" \
-                           --destination arn:aws:ecr:ap-south-1:705454746869:repository/jenkins-test \
-                           --cache true \
-                           --cache-repo arn:aws:ecr:ap-south-1:705454746869:repository/jenkins-test
+                           --destination "arn:aws:ecr:ap-south-1:705454746869:repository/jenkins-test" \
+                           --cache "true" \
+                           --cache-repo "arn:aws:ecr:ap-south-1:705454746869:repository/jenkins-test"
                     """
                 }
             }
