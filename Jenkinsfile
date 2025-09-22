@@ -163,9 +163,11 @@ pipeline {
                         set -ex
                         /kaniko/executor \
                            --context "dir://${WORKSPACE}" \
-                           --destination "arn:aws:ecr:ap-south-1:705454746869:repository/jenkins-test" \
+                           --destination "705454746869.dkr.ecr.ap-south-1.amazonaws.com/jenkins-test:latest" \
+                           --destination "705454746869.dkr.ecr.ap-south-1.amazonaws.com/jenkins-test:${BUILD_NUMBER}" \
+                           --destination "705454746869.dkr.ecr.ap-south-1.amazonaws.com/jenkins-test:${GIT_COMMIT}" \
                            --cache "true" \
-                           --cache-repo "arn:aws:ecr:ap-south-1:705454746869:repository/jenkins-test"
+                           --cache-repo "705454746869.dkr.ecr.ap-south-1.amazonaws.com/jenkins-test"
                     """
                 }
             }
