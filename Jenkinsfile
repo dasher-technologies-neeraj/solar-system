@@ -30,19 +30,19 @@ pipeline {
 //       }
 //     }
 
-        agent {
-          kubernetes {
-            yaml nodeAgentYaml()
-            defaultContainer 'node-container'
-            idleMinutes 5
-            showRawYaml false
-          }
-        }
+//         agent {
+//           kubernetes {
+//             yaml nodeAgentYaml()
+//             defaultContainer 'node-container'
+//             idleMinutes 5
+//             showRawYaml false
+//           }
+//         }
 
 
-//     agent {
-//         label 'solar-system-agent'
-//     }
+    agent {
+        label 'solar-system-agent'
+    }
 
 //     tools {
 //         nodejs "nodejs-24-4-1"
@@ -153,6 +153,21 @@ pipeline {
                             sh 'npm run coverage'
                         }
                     }
+                }
+            }
+        }
+        stage("Build Image Using Kaniko") {
+            steps {
+                container('kaniko') {
+                    sh """
+                        set -ex
+                        sleep 7200
+                        /kaniko/executor \
+                           --context "dir://${WORKSPACE}" \
+                           --destination arn:aws:ecr:ap-south-1:705454746869:repository/jenkins-test \
+                           --cache true \
+                           --cache-repo arn:aws:ecr:ap-south-1:705454746869:repository/jenkins-test
+                    """
                 }
             }
         }
