@@ -41,7 +41,7 @@ pipeline {
 
 
     agent {
-        label 'solar-system-agent'
+        label 'node-agent'
     }
 
 //     tools {
