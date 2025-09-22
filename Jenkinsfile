@@ -162,12 +162,12 @@ pipeline {
                     sh """
                         set -ex
                         /kaniko/executor \
-                           --context "dir://${WORKSPACE}" \
-                           --destination "705454746869.dkr.ecr.ap-south-1.amazonaws.com/jenkins-test:latest" \
-                           --destination "705454746869.dkr.ecr.ap-south-1.amazonaws.com/jenkins-test:${BUILD_NUMBER}" \
-                           --destination "705454746869.dkr.ecr.ap-south-1.amazonaws.com/jenkins-test:${GIT_COMMIT}" \
-                           --cache "true" \
-                           --cache-repo "705454746869.dkr.ecr.ap-south-1.amazonaws.com/jenkins-test"
+                           --context="dir://${WORKSPACE}" \
+                           --destination="705454746869.dkr.ecr.ap-south-1.amazonaws.com/jenkins-test:latest" \
+                           --destination="705454746869.dkr.ecr.ap-south-1.amazonaws.com/jenkins-test:${BUILD_NUMBER}" \
+                           --destination =705454746869.dkr.ecr.ap-south-1.amazonaws.com/jenkins-test:${GIT_COMMIT}" \
+                           --cache=true \
+                           --cache-repo="705454746869.dkr.ecr.ap-south-1.amazonaws.com/jenkins-test"
                     """
                 }
             }
