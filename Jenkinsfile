@@ -161,7 +161,6 @@ pipeline {
                 container('kaniko-container') {
                     sh """
                         set -ex
-                        sleep 7200
                         /kaniko/executor \
                            --context "dir://${WORKSPACE}" \
                            --destination arn:aws:ecr:ap-south-1:705454746869:repository/jenkins-test \
