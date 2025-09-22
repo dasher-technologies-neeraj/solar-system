@@ -158,7 +158,7 @@ pipeline {
         }
         stage("Build Image Using Kaniko") {
             steps {
-                container('kaniko') {
+                container('kaniko-container') {
                     sh """
                         set -ex
                         sleep 7200
