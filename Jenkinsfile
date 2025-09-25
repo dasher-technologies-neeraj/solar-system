@@ -175,7 +175,7 @@ pipeline {
         stage("Trivy Vulnerability Scanning") {
             steps {
                 container('trivy-container') {
-                    sh """
+                    sh '''
                         set -ex
                         IMAGE=705454746869.dkr.ecr.ap-south-1.amazonaws.com/jenkins-test:${GIT_COMMIT}
 
@@ -190,7 +190,7 @@ pipeline {
                             --exit-code 1 \
                             --quiet \
                             --format json -o trivy-image-CRITICAL-results.json
-                    """
+                    '''
                 }
             }
         }
