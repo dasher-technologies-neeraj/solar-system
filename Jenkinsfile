@@ -181,39 +181,45 @@ pipeline {
 
                     container('trivy-container') {
 
-//                         trivyScan.vulnerabilityScan(image,highSevFileName,criticalSevFileName)
+                        trivyScan.vulnerabilityScan(image,highSevFileName,criticalSevFileName)
 
-                        sh '''
-                            set -ex
-                            IMAGE=705454746869.dkr.ecr.ap-south-1.amazonaws.com/jenkins-test:${GIT_COMMIT}
-
-                            trivy image ${IMAGE} \
-                                --severity LOW,MEDIUM \
-                                --exit-code 0 \
-                                --severity HIGH,CRITICAL \
-                                --exit-code 1 \
-                                --quiet \
-                                --format json -o trivy-image-results.json
-                        '''
+//                         sh '''
+//                             set -ex
+//                             IMAGE=705454746869.dkr.ecr.ap-south-1.amazonaws.com/jenkins-test:${GIT_COMMIT}
+//
+//                             trivy image ${IMAGE} \
+//                                 --severity LOW,MEDIUM \
+//                                 --exit-code 0 \
+//                                 --severity HIGH,CRITICAL \
+//                                 --exit-code 1 \
+//                                 --quiet \
+//                                 --format json -o trivy-image-MEDIUM-results.json
+//
+//                             trivy image ${IMAGE} \
+//                                 --severity CRITICAL \
+//                                 --exit-code 1 \
+//                                 --quiet \
+//                                 --format json -o trivy-image-CRITICAL-results.json
+//                         '''
                     }
                 }
             }
-//             post {
-//                 always {
-//                     script {
-//                         def highSevFileName = "trivy-image-HIGH-results.json"
-//                         def highSevHtmlFileName = "trivy-image-HIGH-results.html"
-//                         def highSevXmlFileName = "trivy-image-HIGH-results.xml"
-//                         def criticalSevFileName = "trivy-image-CRITICAL-results.json"
-//                         def criticalSevHtmlFileName = "trivy-image-CRITICAL-results.html"
-//                         def criticalSevXmlFileName = "trivy-image-CRITICAL-results.xml"
-//
-//                         container('trivy-container') {
-//
-//                             trivyScan.convertJsonTrivyReportsToHtml(highSevFileName,highSevHtmlFileName)
-//                             trivyScan.convertJsonTrivyReportsToHtml(criticalSevFileName,criticalSevHtmlFileName)
-//                             trivyScan.convertJsonTrivyReportsToXml(highSevFileName,highSevXmlFileName)
-//                             trivyScan.convertJsonTrivyReportsToXml(criticalSevFileName,criticalSevXmlFileName)
+            post {
+                always {
+                    script {
+                        def highSevFileName = "trivy-image-HIGH-results.json"
+                        def highSevHtmlFileName = "trivy-image-HIGH-results.html"
+                        def highSevXmlFileName = "trivy-image-HIGH-results.xml"
+                        def criticalSevFileName = "trivy-image-CRITICAL-results.json"
+                        def criticalSevHtmlFileName = "trivy-image-CRITICAL-results.html"
+                        def criticalSevXmlFileName = "trivy-image-CRITICAL-results.xml"
+
+                        container('trivy-container') {
+
+                            trivyScan.convertJsonTrivyReportsToHtml(highSevFileName,highSevHtmlFileName)
+                            trivyScan.convertJsonTrivyReportsToHtml(criticalSevFileName,criticalSevHtmlFileName)
+                            trivyScan.convertJsonTrivyReportsToXml(highSevFileName,highSevXmlFileName)
+                            trivyScan.convertJsonTrivyReportsToXml(criticalSevFileName,criticalSevXmlFileName)
 
 //                             sh '''
 //                                 trivy convert \
@@ -240,10 +246,10 @@ pipeline {
 //                                     --output trivy-image-CRITICAL-results.xml \
 //                                     trivy-image-CRITICAL-results.json
 //                             '''
-//                         }
-//                     }
-//                 }
-//             }
+                        }
+                    }
+                }
+            }
         }
     }
     post {
