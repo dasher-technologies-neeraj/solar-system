@@ -181,7 +181,11 @@ pipeline {
 
                     container('trivy-container') {
 
-                        trivyScan.vulnerabilityScan(image,highSevFileName,criticalSevFileName)
+                        trivyScanScript.vulnerabilityScan(imageName: image, severity: "LOW,MEDIUM,HIGH", exitCode: 0, reportName: highSevFileName)
+
+                        trivyScanScript.vulnerabilityScan(imageName: image, severity: "CRITICAL", exitCode: 1, reportName: criticalSevFileName)
+
+//                         trivyScan.vulnerabilityScan(image,highSevFileName,criticalSevFileName)
 
 //                         sh '''
 //                             set -ex
