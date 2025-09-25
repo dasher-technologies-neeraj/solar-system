@@ -100,7 +100,7 @@ pipeline {
                             sh '''
                                 set -ex
                                 dependency-check.sh \
-                                --scan \'./\' \
+                                --scan \'./app.js\' \
                                 --out \'./\' \
                                 --format \'ALL\' \
                                 --prettyPrint \
