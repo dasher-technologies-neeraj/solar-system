@@ -1,4 +1,4 @@
-@Library('ritika-dasher-trusted-agent-shared-library') _
+@Library('ritika-dasher-trusted-agent-shared-library@main') _
 
 pipeline {
 
@@ -174,56 +174,76 @@ pipeline {
         }
         stage("Trivy Vulnerability Scanning") {
             steps {
-                container('trivy-container') {
-                    sh '''
-                        set -ex
-                        IMAGE=705454746869.dkr.ecr.ap-south-1.amazonaws.com/jenkins-test:${GIT_COMMIT}
+                script {
+                    def image = "705454746869.dkr.ecr.ap-south-1.amazonaws.com/jenkins-test:${GIT_COMMIT}"
+                    def highSevFileName = "trivy-image-HIGH-results.json"
+                    def criticalSevFileName = "trivy-image-CRITICAL-results.json"
 
-                        trivy image ${IMAGE} \
-                            --severity LOW,MEDIUM,HIGH \
-                            --exit-code 0 \
-                            --quiet \
-                            --format json -o trivy-image-MEDIUM-results.json
-
-                        trivy image ${IMAGE} \
-                            --severity CRITICAL \
-                            --exit-code 1 \
-                            --quiet \
-                            --format json -o trivy-image-CRITICAL-results.json
-                    '''
-                }
-            }
-            post {
-                always {
                     container('trivy-container') {
+
+//                         trivyScan.vulnerabilityScan(image,highSevFileName,criticalSevFileName)
+
                         sh '''
-                            trivy convert \
-                                --format template \
-                                --template "@/contrib/html.tpl" \
-                                --output trivy-image-MEDIUM-results.html \
-                                trivy-image-MEDIUM-results.json
+                            set -ex
+                            IMAGE=705454746869.dkr.ecr.ap-south-1.amazonaws.com/jenkins-test:${GIT_COMMIT}
 
-                            trivy convert \
-                                --format template \
-                                --template "@/contrib/junit.tpl" \
-                                --output trivy-image-MEDIUM-results.xml \
-                                trivy-image-MEDIUM-results.json
-
-                            trivy convert \
-                                --format template \
-                                --template "@/contrib/html.tpl" \
-                                --output trivy-image-CRITICAL-results.html \
-                                trivy-image-CRITICAL-results.json
-
-                            trivy convert \
-                                --format template \
-                                --template "@/contrib/junit.tpl" \
-                                --output trivy-image-CRITICAL-results.xml \
-                                trivy-image-CRITICAL-results.json
+                            trivy image ${IMAGE} \
+                                --severity LOW,MEDIUM \
+                                --exit-code 0 \
+                                --severity HIGH,CRITICAL \
+                                --exit-code 1 \
+                                --quiet \
+                                --format json -o trivy-image-results.json
                         '''
                     }
                 }
             }
+//             post {
+//                 always {
+//                     script {
+//                         def highSevFileName = "trivy-image-HIGH-results.json"
+//                         def highSevHtmlFileName = "trivy-image-HIGH-results.html"
+//                         def highSevXmlFileName = "trivy-image-HIGH-results.xml"
+//                         def criticalSevFileName = "trivy-image-CRITICAL-results.json"
+//                         def criticalSevHtmlFileName = "trivy-image-CRITICAL-results.html"
+//                         def criticalSevXmlFileName = "trivy-image-CRITICAL-results.xml"
+//
+//                         container('trivy-container') {
+//
+//                             trivyScan.convertJsonTrivyReportsToHtml(highSevFileName,highSevHtmlFileName)
+//                             trivyScan.convertJsonTrivyReportsToHtml(criticalSevFileName,criticalSevHtmlFileName)
+//                             trivyScan.convertJsonTrivyReportsToXml(highSevFileName,highSevXmlFileName)
+//                             trivyScan.convertJsonTrivyReportsToXml(criticalSevFileName,criticalSevXmlFileName)
+
+//                             sh '''
+//                                 trivy convert \
+//                                     --format template \
+//                                     --template "@/contrib/html.tpl" \
+//                                     --output trivy-image-MEDIUM-results.html \
+//                                     trivy-image-MEDIUM-results.json
+//
+//                                 trivy convert \
+//                                     --format template \
+//                                     --template "@/contrib/junit.tpl" \
+//                                     --output trivy-image-MEDIUM-results.xml \
+//                                     trivy-image-MEDIUM-results.json
+//
+//                                 trivy convert \
+//                                     --format template \
+//                                     --template "@/contrib/html.tpl" \
+//                                     --output trivy-image-CRITICAL-results.html \
+//                                     trivy-image-CRITICAL-results.json
+//
+//                                 trivy convert \
+//                                     --format template \
+//                                     --template "@/contrib/junit.tpl" \
+//                                     --output trivy-image-CRITICAL-results.xml \
+//                                     trivy-image-CRITICAL-results.json
+//                             '''
+//                         }
+//                     }
+//                 }
+//             }
         }
     }
     post {
