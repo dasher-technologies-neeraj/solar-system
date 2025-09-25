@@ -195,59 +195,34 @@ pipeline {
             }
             post {
                 always {
-                    sh '''
-                        trivy convert \
-                            --format template \
-                            --template "@/contrib/html.tpl" \
-                            --output trivy-image-MEDIUM-results.html
-                            trivy-image-MEDIUM-results.json
+                    container('trivy-container') {
+                        sh '''
+                            trivy convert \
+                                --format template \
+                                --template "@/contrib/html.tpl" \
+                                --output trivy-image-MEDIUM-results.html
+                                trivy-image-MEDIUM-results.json
 
-                        trivy convert \
-                            --format template \
-                            --template "@/contrib/junit.tpl" \
-                            --output trivy-image-MEDIUM-results.xml
-                            trivy-image-MEDIUM-results.json
+                            trivy convert \
+                                --format template \
+                                --template "@/contrib/junit.tpl" \
+                                --output trivy-image-MEDIUM-results.xml
+                                trivy-image-MEDIUM-results.json
 
-                        trivy convert \
-                            --format template \
-                            --template "@/contrib/html.tpl" \
-                            --output trivy-image-CRITICAL-results.html
-                            trivy-image-CRITICAL-results.json
+                            trivy convert \
+                                --format template \
+                                --template "@/contrib/html.tpl" \
+                                --output trivy-image-CRITICAL-results.html
+                                trivy-image-CRITICAL-results.json
 
-                        trivy convert \
-                            --format template \
-                            --template "@/contrib/junit.tpl" \
-                            --output trivy-image-CRITICAL-results.xml
-                            trivy-image-CRITICAL-results.json
-                    '''
-
-                    publishHTML([
-                        allowMissing: true,
-                        alwaysLinkToLastBuild: true,
-                        icon: '',
-                        keepAll: true,
-                        reportDir: '.',
-                        reportFiles: 'trivy-image-MEDIUM-results.html',
-                        reportName: 'Trivy Medium Vulnerability Report',
-                        reportTitles: 'Trivy Medium Vulnerability Report',
-                        useWrapperFileDirectly: false
-                    ])
-
-                    publishHTML([
-                        allowMissing: true,
-                        alwaysLinkToLastBuild: true,
-                        icon: '',
-                        keepAll: true,
-                        reportDir: '.',
-                        reportFiles: 'trivy-image-CRITICAL-results.html',
-                        reportName: 'Trivy Critical Vulnerability Report',
-                        reportTitles: 'Trivy Critical Vulnerability Report',
-                        useWrapperFileDirectly: false
-                    ])
-
-                    junit allowEmptyResults: true, keepProperties: true, keepTestNames: true,skipMarkingBuildUnstable: true, stdioRetention: 'ALL', testResults: 'trivy-image-MEDIUM-results.xml'
-
-                    junit allowEmptyResults: true, keepProperties: true, keepTestNames: true,skipMarkingBuildUnstable: true, stdioRetention: 'ALL', testResults: 'trivy-image-CRITICAL-results.xml'
+                            trivy convert \
+                                --format template \
+                                --template "@/contrib/junit.tpl" \
+                                --output trivy-image-CRITICAL-results.xml
+                                trivy-image-CRITICAL-results.json
+                            sleep 7800
+                        '''
+                    }
                 }
             }
         }
@@ -269,6 +244,34 @@ pipeline {
             ])
 
             junit allowEmptyResults: true, keepProperties: true, keepTestNames: true,skipMarkingBuildUnstable: true, stdioRetention: 'ALL', testResults: 'test-results.xml'
+
+            publishHTML([
+                allowMissing: true,
+                alwaysLinkToLastBuild: true,
+                icon: '',
+                keepAll: true,
+                reportDir: '.',
+                reportFiles: 'trivy-image-MEDIUM-results.html',
+                reportName: 'Trivy Medium Vulnerability Report',
+                reportTitles: 'Trivy Medium Vulnerability Report',
+                useWrapperFileDirectly: false
+            ])
+
+            publishHTML([
+                allowMissing: true,
+                alwaysLinkToLastBuild: true,
+                icon: '',
+                keepAll: true,
+                reportDir: '.',
+                reportFiles: 'trivy-image-CRITICAL-results.html',
+                reportName: 'Trivy Critical Vulnerability Report',
+                reportTitles: 'Trivy Critical Vulnerability Report',
+                useWrapperFileDirectly: false
+            ])
+
+            junit allowEmptyResults: true, keepProperties: true, keepTestNames: true,skipMarkingBuildUnstable: true, stdioRetention: 'ALL', testResults: 'trivy-image-MEDIUM-results.xml'
+
+            junit allowEmptyResults: true, keepProperties: true, keepTestNames: true,skipMarkingBuildUnstable: true, stdioRetention: 'ALL', testResults: 'trivy-image-CRITICAL-results.xml'
         }
     }
 }
