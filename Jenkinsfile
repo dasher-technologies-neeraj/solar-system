@@ -276,9 +276,9 @@ pipeline {
                 icon: '',
                 keepAll: true,
                 reportDir: '.',
-                reportFiles: 'trivy-image-MEDIUM-results.html',
-                reportName: 'Trivy Medium Vulnerability Report',
-                reportTitles: 'Trivy Medium Vulnerability Report',
+                reportFiles: 'trivy-image-HIGH-results.html',
+                reportName: 'Trivy High Vulnerability Report',
+                reportTitles: 'Trivy High Vulnerability Report',
                 useWrapperFileDirectly: false
             ])
 
@@ -294,7 +294,7 @@ pipeline {
                 useWrapperFileDirectly: false
             ])
 
-            junit allowEmptyResults: true, keepProperties: true, keepTestNames: true,skipMarkingBuildUnstable: true, stdioRetention: 'ALL', testResults: 'trivy-image-MEDIUM-results.xml'
+            junit allowEmptyResults: true, keepProperties: true, keepTestNames: true,skipMarkingBuildUnstable: true, stdioRetention: 'ALL', testResults: 'trivy-image-HIGH-results.xml'
 
             junit allowEmptyResults: true, keepProperties: true, keepTestNames: true,skipMarkingBuildUnstable: true, stdioRetention: 'ALL', testResults: 'trivy-image-CRITICAL-results.xml'
         }
