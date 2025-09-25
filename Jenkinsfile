@@ -172,6 +172,28 @@ pipeline {
                 }
             }
         }
+        stage("Trivy Vulnerability Scanning") {
+            steps {
+                container('trivy-container') {
+                    sh """
+                        set -ex
+                        IMAGE=705454746869.dkr.ecr.ap-south-1.amazonaws.com/jenkins-test:${GIT_COMMIT}
+
+                        trivy image ${IMAGE} \
+                            --severity LOW,MEDIUM \
+                            --exit-code 0 \
+                            --quiet \
+                            --format json -o trivy-image-MEDIUM-results.json
+
+                        trivy image ${IMAGE} \
+                            --severity HIGH,CRITICAL \
+                            --exit-code 1 \
+                            --quiet \
+                            --format json -o trivy-image-CRITICAL-results.json
+                    """
+                }
+            }
+        }
     }
     post {
         always {
