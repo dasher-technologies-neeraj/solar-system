@@ -220,7 +220,6 @@ pipeline {
                                 --template "@/contrib/junit.tpl" \
                                 --output trivy-image-CRITICAL-results.xml \
                                 trivy-image-CRITICAL-results.json
-                            sleep 7800
                         '''
                     }
                 }
